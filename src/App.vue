@@ -1,26 +1,50 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Header />
+
+  <div class="container">
+    <Balance :total="total" />
+
+    <IncomeExpenses />
+
+    <TransactionList :transactions="transactions" />
+
+    <AddTransaction />
+  </div>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup>
+import { computed, ref } from "vue";
+import Header from "./components/Header.vue";
+import Balance from "./components/Balance.vue";
+import IncomeExpenses from "./components/IncomeExpenses.vue";
+import TransactionList from "./components/TransactionList.vue";
+import AddTransaction from "./components/AddTransaction.vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+const transactions = ref([
+  { id: 1, text: "Flower", amount: -19.99 },
+  { id: 2, text: "Salary", amount: 299.89 },
+  { id: 3, text: "Book", amount: -10 },
+  { id: 4, text: "Camera", amount: 150 },
+]);
+
+//Get Total
+const total = computed(() => {
+  return transactions.value.reduce((acc, transaction) => {
+    return acc + transaction.amount;
+  }, 0);
+});
+
+// export default {
+//   name: "App",
+//   components: {
+//     Header,
+//     Balance,
+//     IncomeExpenses,
+//     TransactionList,
+//     AddTransaction,
+//   },
+// };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
